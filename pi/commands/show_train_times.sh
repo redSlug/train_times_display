@@ -4,7 +4,8 @@
 # @reboot /home/pi/train_display/pi/commands/show_train_times.sh >> /home/pi/train_display/log
 
 
-source env_vars
+source /home/pi/train_display/pi/commands/env_vars
+
 
 get_train_data() {
     source $VENV_PATH
