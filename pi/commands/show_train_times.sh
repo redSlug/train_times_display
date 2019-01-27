@@ -9,7 +9,7 @@ source /home/pi/train_display/pi/commands/env_vars
 
 get_train_data() {
     source $VENV_PATH
-    python main.py
+    python app.py
 }
 
 cleanup() {
