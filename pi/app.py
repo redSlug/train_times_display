@@ -19,4 +19,4 @@ if __name__ == '__main__':
     )
 
     banner = BannerMaker()
-    banner.replace_banner(train_text=mta_info.get_train_text())
+    banner.replace_banner(display_text=mta_info.get_train_text())

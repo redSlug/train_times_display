@@ -4,9 +4,9 @@ from PIL import Image, ImageFont, ImageDraw, ImageEnhance
 
 FONTS_PATH = 'banner_maker/fonts/led.ttf'
 GEN_DIR = 'banner_maker/generated/'
-TRAIN_TIMES = 'train_times'
-LED_OUPUT_PATH = GEN_DIR + TRAIN_TIMES + '.ppm'
-WEB_OUPUT_PATH = GEN_DIR + TRAIN_TIMES + '.jpg'
+DISPLAY = 'display'
+LED_OUPUT_PATH = GEN_DIR + DISPLAY + '.ppm'
+WEB_OUPUT_PATH = GEN_DIR + DISPLAY + '.jpg'
 SUMMARY_HEIGHT = 16
 VERTICAL_OFFSET = 4
 
@@ -15,17 +15,17 @@ class BannerMaker:
 
     @staticmethod
     def format_text(text):
-        now = datetime.date.strftime(datetime.datetime.now(), "%-I:%M")
+        now = datetime.date.strftime(datetime.datetime.now(), "%-I:%M%p")
         text = '{} {} '.format(now, text)
         print(text)
         return text
 
-    def replace_banner(self, train_text):
-        if not train_text:
-            print('no train text')
+    def replace_banner(self, display_text):
+        if not display_text:
+            print('no display text')
             return
 
-        summary = self.format_text(train_text)
+        summary = self.format_text(display_text)
 
         font_size_in_points = 9
         font = ImageFont.truetype(FONTS_PATH, font_size_in_points)

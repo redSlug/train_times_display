@@ -12,7 +12,6 @@ get_train_data() {
     python main.py
 }
 
-
 cleanup() {
     echo "Cleaning stuff up" >> log
     sudo pkill demo
