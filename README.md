@@ -20,8 +20,9 @@ Displays upcoming train information in minutes to a 32x16 RGB LED Grid
 - [Female DC Power adapter - 2.1mm jack to screw terminal block](https://www.adafruit.com/product/368) to go in back of the LED Matrix
 
 ## Troubleshooting
-- wait at least 30 seconds after powering your pi with the LED display for the train times to appear
+- wait at least 2 minutes after powering your pi with the LED display for the train times to appear
 - after plugging in a pi with a freshly baked flash card, wait at least 5 minutes
+- to see if program that renders the train times to LED display is running, `ps aux | grep demo`
 
 ## Thank You
 - [Henner Zeller for sharing your LED Matrix code](https://github.com/hzeller/rpi-rgb-led-matrix)
