@@ -2,8 +2,12 @@
 
 sudo apt-get update
 sudo apt-get install -y git python3-pip
-sudo apt-get install silversearcher-ag emacs
-# sudo apt install python3-pil
+
+
+# maybe not necessary
+sudo apt-get install silversearcher-ag
+sudo apt-get install emacs
+sudo apt install python3-pil
 
 REPO_DIR=/home/pi/train_display
 VENV_PATH="${REPO_DIR}/venv/bin/activate"
