@@ -6,4 +6,4 @@ VENV_PATH="${REPO_DIR}/venv/bin/activate"
 
 delay_milliseconds=30
 sleep_seconds=20s
-image_file="display.ppm"
+IMG_PATH="${APP_DIR}/banner_maker/generated/display.ppm"

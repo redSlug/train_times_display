@@ -12,7 +12,6 @@ VERTICAL_OFFSET = 4
 
 
 class BannerMaker:
-
     @staticmethod
     def format_text(text):
         now = datetime.date.strftime(datetime.datetime.now(), "%-I:%M%p")

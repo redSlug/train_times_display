@@ -22,7 +22,7 @@ cleanup() {
 main () {
     pushd $APP_DIR
 
-    if [ ! -f $image_file ]; then
+    if [ ! -f $IMG_PATH ]; then
         echo "File not found!" >> log
         exit 1
     fi
@@ -32,7 +32,7 @@ main () {
         get_train_data
         source env_vars
         sudo pkill demo
-        sudo rpi-rgb-led-matrix/examples-api-use/demo -D 1 $image_file --led-no-hardware-pulse --led-rows=16 --led-cols=32 -m $delay_milliseconds --led-daemon --led-brightness=10
+        sudo rpi-rgb-led-matrix/examples-api-use/demo -D 1 $IMG_PATH --led-no-hardware-pulse --led-rows=16 --led-cols=32 -m $delay_milliseconds --led-daemon --led-brightness=10
         sleep $sleep_seconds
     done
 

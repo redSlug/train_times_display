@@ -29,19 +29,23 @@ class MTAInfo:
     def get_train_time_data(self, train_data):
         train_time_data = list()
         for trains in train_data:
-            trip_update = trains.get('trip_update')
-            if not trip_update:
+            try:
+                trip_update = trains.get('trip_update')
+                if not trip_update:
+                    continue
+
+                route_id = trip_update['trip']['route_id']
+
+                stop_time_update = trip_update['stop_time_update']
+                for stop_info in stop_time_update:
+                    if stop_info.get('stop_id') == self.station:
+                        arrival = stop_info.get('arrival')
+                        if not arrival:
+                            continue
+                        train_time_data.append((route_id, arrival['time']))
+            except Exception as e:
+                print(e)
                 continue
-
-            route_id = trip_update['trip']['route_id']
-
-            stop_time_update = trip_update['stop_time_update']
-            for stop_info in stop_time_update:
-                if stop_info.get('stop_id') == self.station:
-                    arrival = stop_info.get('arrival')
-                    if not arrival:
-                        continue
-                    train_time_data.append((route_id, arrival['time']))
         return train_time_data
 
     def get_train_time_strings(self, train_time_data):
