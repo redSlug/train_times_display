@@ -39,4 +39,4 @@ main () {
     popd
 }
 
-main()
+main

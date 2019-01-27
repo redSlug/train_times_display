@@ -25,4 +25,6 @@ cd $APP_DIR
 
 make -C rpi-rgb-led-matrix/examples-api-use
 
-mkdir -p "${APP_DIR}/generated"
+mkdir -p "${APP_DIR}/banner_maker/generated"
+
+touch /home/pi/train_display/log
