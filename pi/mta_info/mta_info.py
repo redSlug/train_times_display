@@ -65,7 +65,7 @@ class MTAInfo:
                 continue
             if i < 1 or train_time_data[i-1][0] != train:
                 train_output.append(
-                    self.get_train_time_with_label(train, arrival_time, now))
+                    self.get_train_time(arrival_time, now))
             else:
                 train_output.append(self.get_train_time(arrival_time, now))
 
