@@ -14,21 +14,15 @@ class MTAInfo:
         self.feed_id = feed_id
         self.station = station
         self.feed_message = gtfs_realtime_pb2.FeedMessage()
-        
-    @staticmethod
-    def get_train_time_with_label(train, arrival_time, now):
-        minutes_until_train = (arrival_time - int(now)) // 60
-        minutes = "{}".format(minutes_until_train)
-        return "{}: {}".format(train, minutes)
+        self.now = time.time()
 
-    @staticmethod
-    def get_train_time(arrival_time, now):
-        minutes_until_train = (arrival_time - int(now)) // 60
+    def get_minutes(self, arrival_time):
+        minutes_until_train = (arrival_time - int(self.now)) // 60
         return "{}".format(minutes_until_train)
 
-    def get_train_time_data(self, train_data):
+    def get_train_times(self, feed):
         train_time_data = list()
-        for trains in train_data:
+        for trains in feed:
             try:
                 trip_update = trains.get('trip_update')
                 if not trip_update:
@@ -48,36 +42,21 @@ class MTAInfo:
                 continue
         return train_time_data
 
-    def get_train_time_strings(self, train_time_data):
-        if len(train_time_data) < 1:
-            return 'no times'
-
-        train_time_data.sort(key=lambda route_time: route_time[1])
-
-        now = time.time()
-
-        train_output = list()
-
-        for i, train_arrival_time in enumerate(train_time_data[:TIMES_TO_GET]):
-            train, arrival_time = train_arrival_time
-            minutes_until_arrival = (arrival_time - int(now)) / 60
-            if minutes_until_arrival < 1:
-                continue
-            if i < 1 or train_time_data[i-1][0] != train:
-                train_output.append(
-                    self.get_train_time(arrival_time, now))
-            else:
-                train_output.append(self.get_train_time(arrival_time, now))
-
-        return ' '.join(train_output) + ' '
-
-    def get_train_text(self):
+    def get_minutes_til_train_with_color(self):
         feed = self.get_feed()
         if not feed:
-            # TODO log an exception
+            print('no feed')
             return
-        train_time_data = self.get_train_time_data(feed)
-        return self.get_train_time_strings(train_time_data)
+        train_times = self.get_train_times(feed)
+
+        colors = {'1': 'red',
+                  '2': 'red',
+                  '3': 'red',
+                  '4': 'green',
+                  '5': 'green'}
+
+        return [(colors[num], ' ' + self.get_minutes(t))
+                for (num, t) in train_times]
 
     def get_feed(self, feed_id=None):
         feed_id = feed_id or self.feed_id

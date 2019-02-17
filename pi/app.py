@@ -19,4 +19,6 @@ if __name__ == '__main__':
     )
 
     banner = BannerMaker()
-    banner.replace_banner(display_text=mta_info.get_train_text())
+    banner.replace_color_banner(
+        display_data=mta_info.get_minutes_til_train_with_color()
+    )
