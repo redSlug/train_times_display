@@ -6,6 +6,7 @@ from protobuf_to_dict import protobuf_to_dict
 
 MTA_URL = 'http://datamine.mta.info/mta_esi.php'
 TIMES_TO_GET = 6
+MIN_MINS_TO_SHOW = 3
 
 
 class MTAInfo:
@@ -16,9 +17,11 @@ class MTAInfo:
         self.feed_message = gtfs_realtime_pb2.FeedMessage()
         self.now = time.time()
 
-    def get_minutes(self, arrival_time):
-        minutes_until_train = (arrival_time - int(self.now)) // 60
-        return "{}".format(minutes_until_train)
+    def get_minutes(self, train_time):
+        return (train_time - int(self.now)) // 60
+
+    def enough_time(self, train_time):
+        return self.get_minutes(train_time) >= MIN_MINS_TO_SHOW
 
     def get_train_times(self, feed):
         train_time_data = list()
@@ -55,8 +58,8 @@ class MTAInfo:
                   '4': 'green',
                   '5': 'green'}
 
-        return [(colors[num], ' ' + self.get_minutes(t))
-                for (num, t) in train_times]
+        return [(colors[num], ' {}'.format(self.get_minutes(t)))
+                for (num, t) in train_times if self.enough_time(t)]
 
     def get_feed(self, feed_id=None):
         feed_id = feed_id or self.feed_id
@@ -70,7 +73,7 @@ class MTAInfo:
             subway_feed = protobuf_to_dict(self.feed_message)
             return subway_feed['entity']
         except DecodeError as e:
-            print('Unable to decode: %s', e)
+            print('Unable to decode: {}'.format(e))
         except Exception as e:
             print(e)
             return "could not parse feed"
