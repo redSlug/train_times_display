@@ -1,12 +1,20 @@
-import requests, time
-from google.protobuf.message import DecodeError
+from collections import defaultdict
+import requests
+import time
 
+from google.protobuf.message import DecodeError
 from google.transit import gtfs_realtime_pb2
 from protobuf_to_dict import protobuf_to_dict
 
 MTA_URL = 'http://datamine.mta.info/mta_esi.php'
 TIMES_TO_GET = 6
-MIN_MINS_TO_SHOW = 3
+MIN_MINUTES_TO_SHOW = 3
+
+TRAIN_COLORS = {'1': 'red',
+                '2': 'red',
+                '3': 'red',
+                '4': 'green',
+                '5': 'green'}
 
 
 class MTAInfo:
@@ -21,7 +29,7 @@ class MTAInfo:
         return (train_time - int(self.now)) // 60
 
     def enough_time(self, train_time):
-        return self.get_minutes(train_time) >= MIN_MINS_TO_SHOW
+        return self.get_minutes(train_time) >= MIN_MINUTES_TO_SHOW
 
     def get_train_times(self, feed):
         train_time_data = list()
@@ -52,13 +60,12 @@ class MTAInfo:
             return
         train_times = self.get_train_times(feed)
 
-        colors = {'1': 'red',
-                  '2': 'red',
-                  '3': 'red',
-                  '4': 'green',
-                  '5': 'green'}
+        train_colors = defaultdict(lambda: 'white')
 
-        return [(colors[num], ' {}'.format(self.get_minutes(t)))
+        for train, color in TRAIN_COLORS.items():
+            train_colors[train] = color
+
+        return [(train_colors[num], ' {}'.format(self.get_minutes(t)))
                 for (num, t) in train_times if self.enough_time(t)]
 
     def get_feed(self, feed_id=None):
