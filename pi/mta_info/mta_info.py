@@ -60,6 +60,8 @@ class MTAInfo:
             return
         train_times = self.get_train_times(feed)
 
+        train_times.sort(key=lambda x: x[1])
+
         train_colors = defaultdict(lambda: 'white')
 
         for train, color in TRAIN_COLORS.items():
