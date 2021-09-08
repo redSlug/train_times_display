@@ -2,7 +2,7 @@ certifi==2018.11.29
 chardet==3.0.4
 gtfs-realtime-bindings==0.0.5
 idna==2.8
-Pillow==5.4.1
+Pillow==8.3.2
 protobuf==3.6.1
 protobuf3-to-dict==0.1.5
 python-dotenv==0.10.1
